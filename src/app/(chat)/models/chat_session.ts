@@ -10,7 +10,7 @@ export interface IChatSession {
   
   // Implement the ChatSession class based on the interface
 export default  class ChatSession {
-    buyerId: string;
+    buyerId: string;  
     id:string;
     sellerId: string;
     createdAt: Date;

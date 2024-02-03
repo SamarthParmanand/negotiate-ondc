@@ -9,6 +9,15 @@ abstract class ChatMesssageRepository{
    abstract createMessage(msg:ChatMessage):Promise<void>;
 }   
 
+/**
+ * Example usage
+ ```typescript
+    var _repo =  new MessageRepository("sessionId",(newMessage){
+        /// do with new message arrived
+        /// setMessages([...messages,newMessage]);
+    })
+ ```
+ */
 export default class MessageRepository implements ChatMesssageRepository{
     
     private supabase :SupabaseClient;
@@ -49,7 +58,6 @@ export default class MessageRepository implements ChatMesssageRepository{
     }
 
     async dispose() {
-        
-     
+       await this.supabase.removeChannel(this.channel);
     }
 }
