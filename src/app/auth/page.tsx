@@ -6,7 +6,7 @@ import supabaseClient from "@/utils/supabaseClient";
 export default function Page() {
   const supabase = supabaseClient();
   const handleLogin = () => {
-    const { data, error } = supabase.auth.signInWithOAuth({
+    const { error } = supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo: location.origin + "/auth/callback",
