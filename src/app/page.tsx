@@ -1,28 +1,24 @@
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  Button,
-} from "@nextui-org/react";
+"use client";
+
+import { Button } from "@nextui-org/react";
+import supabaseClient from "@/utils/supabaseClient";
+import authState from "./store/auth";
 
 export default function Home() {
+  const supabase = supabaseClient();
+
+  const handleClick = async () => {
+    await supabase.auth.signOut();
+    authState.user = null;
+  };
+
   return (
     <>
       <div className="h-screen w-full text-4xl text-center font-bold flex flex-col items-center justify-center">
         NextUI Init
-        <Popover placement="bottom">
-          <PopoverTrigger>
-            <Button className="my-4 font-bold p-5">Great!!</Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <div className="px-1 py-2">
-              <div className="text-small font-bold">
-                This UI library will be used to design the application.
-              </div>
-              <div className="text-tiny">Smooth animations go brrrr</div>
-            </div>
-          </PopoverContent>
-        </Popover>
+        <Button className="my-4 font-bold p-5" onClick={handleClick}>
+          Click here to logout
+        </Button>
       </div>
     </>
   );
