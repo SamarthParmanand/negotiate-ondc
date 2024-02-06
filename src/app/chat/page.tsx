@@ -20,7 +20,7 @@ export default function Page() {
       const repo = new SessionRepository();
       const data = await repo.fetchSessions();
       setSessions(data);
-      setActiveSession(data[0])
+      setActiveSession(data[0]);
     };
 
     fetchSessions();
@@ -38,18 +38,15 @@ export default function Page() {
   }, [activeSession]);
 
   const fetchMsgs = async (sessionId: string) => {
-    const repo = new MessageRepository(
-      sessionId,
-      (msg) => {
-        setMessages((prevMessages) => [msg, ...prevMessages]);
-      }
-    );
+    const repo = new MessageRepository(sessionId, (msg) => {
+      setMessages((prevMessages) => [msg, ...prevMessages]);
+    });
     const messages = await repo.fetchMessages();
     setMessages(messages);
   };
 
   return (
-    <div className="h-screen w-full grid grid-cols-5 px-[10%] py-[5%]">
+    <div className="h-screen w-full grid grid-cols-6 px-1 md:px-[10%] py-[2%] bg-gray-200 overflow-scroll">
       <Inbox sessions={sessions} setSession={handleSessionChange} />
       <ChatInterface session={activeSession} messages={messages} />
     </div>

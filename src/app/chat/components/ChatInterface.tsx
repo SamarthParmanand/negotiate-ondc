@@ -15,8 +15,9 @@ export default function ChatInterface({
   console.log(messages);
 
   return (
-    <div className="col-span-4 w-full border grid">
-      <div className="flex flex-col">
+    <div className="col-span-4 w-full grid">
+      <p className="m-3 text-3xl font-bold">senter -user details</p>
+      <div className="flex flex-col overflow-scroll h-[43rem]">
         {messages.map((message) => {
           return <ChatMessageComponent key={message.id} message={message} />;
         })}

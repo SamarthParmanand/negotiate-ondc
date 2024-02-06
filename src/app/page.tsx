@@ -32,12 +32,6 @@ export default function Home() {
             </Button>
           </Link>
         </div>
-        {/* <Link
-          className="my-4 font-semibold p-5 text-black bg-neutral-300 rounded-lg"
-          href="/chat"
-        >
-          Go to Chat
-        </Link> */}
       </div>
     </>
   );

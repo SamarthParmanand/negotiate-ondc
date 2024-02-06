@@ -4,6 +4,8 @@ import { Input, Button } from "@nextui-org/react";
 import { useState } from "react";
 import MessageRepository from "../repositories/chat_message_repository";
 import ChatMessage, { IChatMessage } from "../models/chat_message";
+import { useSnapshot } from "valtio";
+import authState from "@/app/store/auth";
 
 export default function ChatInput({
   sessionId,
@@ -15,6 +17,8 @@ export default function ChatInput({
     console.log("received");
   });
 
+  const userState = useSnapshot(authState);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -24,7 +28,7 @@ export default function ChatInput({
       sessionId: sessionId!,
       createdAt: new Date().toISOString(),
       metadata: null,
-      author: "",
+      author: userState.user?.id!,
     };
 
     await msg.createMessage(new ChatMessage(newMessage));
@@ -40,7 +44,7 @@ export default function ChatInput({
         onChange={(e) => setMessage(e.target.value)}
         className="mx-2"
       />
-      <Button type="submit" className="h-14 w-40 mx-2 bg-neutral-200">
+      <Button type="submit" className="h-14 w-40 mx-2 bg-gray-300">
         Send
       </Button>
     </form>
