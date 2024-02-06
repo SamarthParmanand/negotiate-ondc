@@ -1,37 +1,34 @@
 "use client";
 
-import { Input, Button } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { useState } from "react";
-import MessageRepository from "../repositories/chat_message_repository";
+import { v4 as uuidv4 } from "uuid";
 import ChatMessage, { IChatMessage } from "../models/chat_message";
+import MessageRepository from "../repositories/chat_message_repository";
 import { useSnapshot } from "valtio";
 import authState from "@/app/store/auth";
 
 export default function ChatInput({
-  sessionId,
+  repo,
 }: {
-  sessionId: string | undefined;
+  repo: MessageRepository | null;
 }) {
   const [message, setMessage] = useState("");
-  const msg = new MessageRepository(sessionId!, (msg) => {
-    console.log("received");
-  });
-
   const userState = useSnapshot(authState);
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newMessage: IChatMessage = {
       message: message,
-      id: "",
-      sessionId: sessionId!,
+      id: uuidv4(),
+      sessionId: repo?.sessionId ?? "",
       createdAt: new Date().toISOString(),
       metadata: null,
       author: userState.user?.id!,
     };
-
-    await msg.createMessage(new ChatMessage(newMessage));
+    if (message != "") {
+      await repo?.createMessage(new ChatMessage(newMessage));
+    }
 
     setMessage("");
   };

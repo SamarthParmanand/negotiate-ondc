@@ -3,12 +3,13 @@ import ChatInput from "./ChatInput";
 import ChatMessage, { IChatMessage } from "../models/chat_message";
 import ChatSession from "../models/chat_session";
 import ChatMessageComponent from "./ChatMessageComponent";
+import MessageRepository from "../repositories/chat_message_repository";
 
 export default function ChatInterface({
-  session,
+  repo,
   messages,
 }: {
-  session: ChatSession | null;
+  repo:  MessageRepository | null;
   messages: ChatMessage[];
 }) {
   const supabase = supabaseClient();
@@ -22,7 +23,7 @@ export default function ChatInterface({
           return <ChatMessageComponent key={message.id} message={message} />;
         })}
       </div>
-      <ChatInput sessionId={session?.id ?? ""} />
+      <ChatInput repo={repo} />
     </div>
   );
 }
