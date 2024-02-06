@@ -1,6 +1,6 @@
 import supabaseClient from "@/utils/supabaseClient";
 import { RealtimeChannel, SupabaseClient } from "@supabase/supabase-js";
-import ChatMessage from "../models/chat_message";
+import ChatMessage, { IChatMessage } from "../models/chat_message";
 
 abstract class ChatMesssageRepository {
   messages: ChatMessage[] = [];
@@ -25,7 +25,7 @@ export default class MessageRepository implements ChatMesssageRepository {
   private channel: RealtimeChannel;
   /**
    * @param {string} sessionId - session id of the message, in which the message has been flown
-   * @param {(msgs: ChatMessage[]) => void} callback - The void callback when a new message is recieved.
+   * @param {(msg: ChatMessage) => void} callback - The void callback when a new message is recieved.
    */
   constructor(sessionId: string, callback: (msgs: ChatMessage) => void) {
     this.messages = [];
@@ -43,7 +43,7 @@ export default class MessageRepository implements ChatMesssageRepository {
         },
         (payload) => {
           console.log(payload);
-          // callback(payload.);
+          callback(new ChatMessage(payload.new as IChatMessage));
         },
       )
       .subscribe(() => {

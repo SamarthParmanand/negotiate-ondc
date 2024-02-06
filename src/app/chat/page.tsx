@@ -27,7 +27,9 @@ export default function Page() {
     fetchSessions();
   }, []);
 
-  function callback(msg:ChatMessage){};
+  function callback(msg:ChatMessage){
+    setMessages((previous) => [...previous, msg])
+  };
 
   const handleSessionChange = (session: ChatSession) => {
     setActiveRepo(new MessageRepository(session.id,callback));
