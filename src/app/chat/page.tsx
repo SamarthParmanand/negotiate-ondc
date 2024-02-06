@@ -12,9 +12,7 @@ import ChatMessage from "./models/chat_message";
 export default function Page() {
   const supabase = supabaseClient();
   const [sessions, setSessions] = useState<ChatSession[]>([]);
-  const [activeSession, setActiveSession] = useState<ChatSession | undefined>(
-    undefined
-  );
+  const [activeSession, setActiveSession] = useState<ChatSession | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   const handleSessionChange = (session: ChatSession) => {
