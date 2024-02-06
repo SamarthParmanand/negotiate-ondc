@@ -42,12 +42,12 @@ export default class MessageRepository implements ChatMesssageRepository {
           filter: `sessionId=eq.${this.sessionId}`,
         },
         (payload) => {
-          console.log(payload);
+          // console.log(payload);
           callback(new ChatMessage(payload.new as IChatMessage));
-        },
+        }
       )
       .subscribe(() => {
-        console.log(`Subscribed to ${sessionId}`);
+        // console.log(`Subscribed to ${sessionId}`);
       });
   }
 
@@ -70,6 +70,6 @@ export default class MessageRepository implements ChatMesssageRepository {
 
   async dispose() {
     await this.supabase.removeChannel(this.channel);
-    console.log(`channel ${this.sessionId}`);
+    // console.log(`channel ${this.sessionId}`);
   }
 }

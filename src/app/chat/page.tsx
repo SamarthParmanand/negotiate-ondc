@@ -1,6 +1,5 @@
 "use client";
 
-import supabaseClient from "@/utils/supabaseClient";
 import { useEffect, useState } from "react";
 import ChatInterface from "./components/ChatInterface";
 import Inbox from "./components/Inbox";
@@ -10,18 +9,18 @@ import MessageRepository from "./repositories/chat_message_repository";
 import { SessionRepository } from "./repositories/chat_session_repository";
 
 export default function Page() {
-  const supabase = supabaseClient();
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [activeRepo, setActiveRepo] = useState<MessageRepository | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
     const fetchSessions = async () => {
-      console.log("called");
       const repo = new SessionRepository();
       const data = await repo.fetchSessions();
       setSessions(data);
-      setActiveRepo(new MessageRepository(data[0].id, callback));
+      if (data.length > 0) {
+        setActiveRepo(new MessageRepository(data[0].id, callback));
+      }
     };
 
     fetchSessions();

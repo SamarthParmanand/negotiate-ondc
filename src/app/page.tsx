@@ -5,10 +5,12 @@ import supabaseClient from "@/utils/supabaseClient";
 import authState from "./store/auth";
 import { Link } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { useSnapshot } from "valtio";
 
 export default function Home() {
   const supabase = supabaseClient();
   const router = useRouter();
+  const userState = useSnapshot(authState);
   const handleLogout = async () => {
     await supabase.auth.signOut();
     authState.user = null;
@@ -19,6 +21,7 @@ export default function Home() {
     <>
       <div className="h-screen w-full text-4xl text-center font-semibold flex flex-col items-center justify-center">
         <p>Negotiate ONDC</p>
+        <p>Welcome {userState.user?.user_metadata.name}</p>
         <div className="flex w-full justify-center">
           <Button
             className="m-4 font-semibold p-5 text-black bg-neutral-300 rounded-lg"

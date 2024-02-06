@@ -12,7 +12,6 @@ export default function IsAuthorized() {
   useEffect(() => {
     const check = async () => {
       const response = await supabase.auth.getUser();
-      console.log(response.data.user);
       if (response.data.user) {
         authState.user = response.data.user;
       } else {
