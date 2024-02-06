@@ -12,46 +12,52 @@ import { SessionRepository } from "./repositories/chat_session_repository";
 export default function Page() {
   const supabase = supabaseClient();
   const [sessions, setSessions] = useState<ChatSession[]>([]);
-  const [activeSession, setActiveSession] = useState<ChatSession | null>(null);
+  const [activeRepo, setActiveRepo] = useState<MessageRepository | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
     const fetchSessions = async () => {
+      console.log("called");
       const repo = new SessionRepository();
       const data = await repo.fetchSessions();
       setSessions(data);
-      setActiveSession(data[0])
+      setActiveRepo(new MessageRepository(data[0].id,callback))
     };
 
     fetchSessions();
   }, []);
 
+  function callback(msg:ChatMessage){};
+
   const handleSessionChange = (session: ChatSession) => {
-    setActiveSession(session);
+    setActiveRepo(new MessageRepository(session.id,callback));
   };
 
   useEffect(() => {
-    console.log(activeSession);
-    if (activeSession) {
-      fetchMsgs(activeSession.id);
+    let repo:MessageRepository|undefined;
+    if (activeRepo) {
+      
+      fetchMsgs();
     }
-  }, [activeSession]);
+    return ()=>{
+    if(repo){
+      repo.dispose();
+    }
+    }
+  }, [activeRepo]);
 
-  const fetchMsgs = async (sessionId: string) => {
-    const repo = new MessageRepository(
-      sessionId,
-      (msg) => {
-        setMessages((prevMessages) => [msg, ...prevMessages]);
-      }
-    );
-    const messages = await repo.fetchMessages();
+  const fetchMsgs = async () => {
+   
+    const messages = await activeRepo?.fetchMessages();
+   if(messages){
     setMessages(messages);
+   }
   };
 
   return (
     <div className="h-screen w-full grid grid-cols-5 px-[10%] py-[5%]">
       <Inbox sessions={sessions} setSession={handleSessionChange} />
-      <ChatInterface session={activeSession} messages={messages} />
+      <ChatInterface repo={activeRepo} messages={messages} />
     </div>
   );
 }

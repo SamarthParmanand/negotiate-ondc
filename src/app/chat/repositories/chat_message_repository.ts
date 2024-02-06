@@ -38,15 +38,17 @@ export default class MessageRepository implements ChatMesssageRepository {
         {
           event: "*",
           schema: "public",
-          table: "chat_sessions",
+          table: "chat_messages",
           filter: `sessionId=eq.${this.sessionId}`,
         },
         (payload) => {
           console.log(payload);
           // callback(payload.);
-        }
+        },
       )
-      .subscribe();
+      .subscribe(() => {
+        console.log(`Subscribed to ${sessionId}`);
+      });
   }
 
   async fetchMessages(_offset?: number | 30): Promise<ChatMessage[]> {
@@ -68,5 +70,6 @@ export default class MessageRepository implements ChatMesssageRepository {
 
   async dispose() {
     await this.supabase.removeChannel(this.channel);
+    console.log(`channel ${this.sessionId}`);
   }
 }
