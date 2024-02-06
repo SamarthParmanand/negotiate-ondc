@@ -1,4 +1,4 @@
-import supabaseClient from "@/utils/supabaseClient";
+    import supabaseClient from "@/utils/supabaseClient";
 import { SupabaseClient } from "@supabase/supabase-js";
 import ChatSession from "../models/chat_session";
 

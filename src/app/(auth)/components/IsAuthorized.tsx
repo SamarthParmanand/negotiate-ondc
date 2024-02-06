@@ -1,31 +1,26 @@
 "use client";
 
-import { useSnapshot } from "valtio";
 import authState from "../../store/auth";
 import supabaseClient from "@/utils/supabaseClient";
-import React, { useEffect } from "react";
-import Login from "./Login";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export default function IsAuthorized({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const snap = useSnapshot(authState);
+export default function IsAuthorized() {
+  const router = useRouter();
 
   const supabase = supabaseClient();
   useEffect(() => {
     const check = async () => {
       const response = await supabase.auth.getUser();
+      console.log(response.data.user);
       if (response.data.user) {
         authState.user = response.data.user;
+      } else {
+        router.push("/auth");
       }
     };
     check();
-  });
+  }, [router, supabase.auth]);
 
-  if (!snap.user) {
-    return <Login />;
-  }
-  return <>{children}</>;
+  return <></>;
 }
