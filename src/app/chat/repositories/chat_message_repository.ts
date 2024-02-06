@@ -27,7 +27,7 @@ export default class MessageRepository implements ChatMesssageRepository {
    * @param {string} sessionId - session id of the message, in which the message has been flown
    * @param {(msgs: ChatMessage[]) => void} callback - The void callback when a new message is recieved.
    */
-  constructor(sessionId: string, callback: (msgs: ChatMessage[]) => void) {
+  constructor(sessionId: string, callback: (msgs: ChatMessage) => void) {
     this.messages = [];
     this.sessionId = sessionId;
     this.supabase = supabaseClient();
