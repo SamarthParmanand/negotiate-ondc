@@ -25,15 +25,21 @@ export default function ProductCard({ product }: { product: Product }) {
         <p className="text-xl font-semibold">{product.title}</p>
         <p className="py-4">{product.description}</p>
       </CardBody>
-      <CardFooter className="px-5 flex flex-col">
-        <div className="flex">
-          <Chip className="m-1 ">₹{product.selling_price}</Chip>
-          <Chip className="m-1 ">{product.industry}</Chip>
-          <Chip className="m-1 ">Stock: {product.stock}</Chip>
+      <CardFooter className="px-5 flex flex-col min-h-40 justify-between">
+        <div className="flex flex-wrap justify-start mx-0">
+          <Chip className="m-1 px-2 w-full text-center">
+            ₹{product.selling_price}
+          </Chip>
+          <Chip className="m-1 px-2 w-full text-center">
+            {product.industry}
+          </Chip>
+          <Chip className="m-1 px-2 w-full text-center">
+            Stock: {product.stock}
+          </Chip>
         </div>
         <Link
           href={`/catalog/${product.id}`}
-          className="text-sm bg-gray-100 flex justify-start items-center my-3"
+          className="text-sm bg-gray-100 flex justify-start items-center my-3 mt-5 "
         >
           <p>View Details</p>
           <TfiArrowTopRight className="translate-y-0.5 mx-1" />
