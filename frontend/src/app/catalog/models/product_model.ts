@@ -15,6 +15,9 @@ export interface Product {
   color?: string | null;
   min_bulk_order?: number | null;
   min_order_quantity?: number | null;
+  color_variants?: string[] | null; // Nullable list of hexacolors in strings
+  images: string[]; // List of images of the product, default to an empty array
+  primary_image: string; // The primary image of the product, not nullable
 }
 
 export class ProductModel implements Product {
@@ -34,6 +37,9 @@ export class ProductModel implements Product {
   color?: string | null;
   min_bulk_order?: number | null;
   min_order_quantity?: number | null;
+  color_variants?: string[] | null; // Nullable list of hexacolors in strings
+  images: string[] = []; // List of images of the product, default to an empty array
+  primary_image: string; // The primary image of the product, not nullable
 
   constructor(data: Product) {
     this.id = data.id;
@@ -52,5 +58,8 @@ export class ProductModel implements Product {
     this.color = data.color || null;
     this.min_bulk_order = data.min_bulk_order || null;
     this.min_order_quantity = data.min_order_quantity || null;
+    this.color_variants = data.color_variants || null;
+    this.images = data.images || [];
+    this.primary_image = data.primary_image;
   }
 }
