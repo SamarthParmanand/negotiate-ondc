@@ -1,199 +1,44 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { SessionRepository } from "../chat/repositories/chat_session_repository";
-import authState from "../store/auth";
-import { v4 as uuidv4 } from "uuid";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Button,
-  Image,
-} from "@nextui-org/react";
-import Link from "next/link";
-import { TfiArrowTopRight } from "react-icons/tfi";
-// import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import { Button, Input } from "@nextui-org/react";
+import CatalogRepository from "./repositories/product_repository";
+import { ProductModel } from "./models/product_model";
+import ProductCard from "./components/ProductCard";
 
 export default function Page() {
-  const repo = new SessionRepository();
-  const userState = useSnapshot(authState);
+  const [products, setProducts] = useState<ProductModel[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const repo = new CatalogRepository();
 
   useEffect(() => {
-    console.log("eff");
+    repo.fetchProducts().then(setProducts);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleCreateSession = () => {
-    // const session = new ChatSession({
-    //   buyerId: userState.user?.id!,
-    //   sellerId: "d53cb05f-a4ff-46d1-8b65-3311ebaea291",
-    //   productId: uuidv4(),
-    //   category: "taha",
-    //   id: uuidv4(),
-    //   createdAt: new Date().toISOString(),
-    // });
-    // repo.createSession(session);
-    catalogRepo.fetchProducts("phone").then(console.log);
+  const handleSearch = () => {
+    repo.fetchProducts(searchTerm).then(setProducts);
   };
 
   return (
-    <div className="grid grid-cols-3 mx-[10%]">
-      <Card className="m-3 ">
-        <CardHeader className="justify-center">
-          <Image
-            src="https://picsum.photos/300/300"
-            alt="random image"
-            height={300}
-            width={300}
-          />
-        </CardHeader>
-        <CardBody className="mx-4">
-          <p className="text-xl font-semibold">name of product</p>
-          <p>a few more details</p>
-          <p>a few more details</p>
-          <p>a few more details</p>
-        </CardBody>
-        <CardFooter className="mx-4">
-          <Button
-            as={Link}
-            href="/catalog/product"
-            className="text-black flex justify-start items-center"
-          >
-            <p>View Details</p>
-            <TfiArrowTopRight className="mt-1 mx-1" />
-          </Button>
-        </CardFooter>
-      </Card>
-      <Card className="m-3">
-        <CardHeader className="justify-center">
-          <Image
-            src="https://picsum.photos/300/300"
-            alt="random image"
-            height={300}
-            width={300}
-          />
-        </CardHeader>
-        <CardBody className="mx-4">
-          <p className="text-xl font-semibold">name of product</p>
-          <p>a few more details</p>
-          <p>a few more details</p>
-          <p>a few more details</p>
-        </CardBody>
-        <CardFooter className="mx-4">
-          <Button
-            as={Link}
-            href="/catalog/product"
-            className="text-black flex justify-start items-center"
-          >
-            <p>View Details</p>
-            <TfiArrowTopRight className="mt-1 mx-1" />
-          </Button>
-        </CardFooter>
-      </Card>
-      <Card className="m-3">
-        <CardHeader className="justify-center">
-          <Image
-            src="https://picsum.photos/300/300"
-            alt="random image"
-            height={300}
-            width={300}
-          />
-        </CardHeader>
-        <CardBody className="mx-4">
-          <p className="text-xl font-semibold">name of product</p>
-          <p>a few more details</p>
-          <p>a few more details</p>
-          <p>a few more details</p>
-        </CardBody>
-        <CardFooter className="mx-4">
-          <Button
-            as={Link}
-            href="/catalog/product"
-            className="text-black flex justify-start items-center"
-          >
-            <p>View Details</p>
-            <TfiArrowTopRight className="mt-1 mx-1" />
-          </Button>
-        </CardFooter>
-      </Card>
-      <Card className="m-3">
-        <CardHeader className="justify-center">
-          <Image
-            src="https://picsum.photos/300/300"
-            alt="random image"
-            height={300}
-            width={300}
-          />
-        </CardHeader>
-        <CardBody className="mx-4">
-          <p className="text-xl font-semibold">name of product</p>
-          <p>a few more details</p>
-          <p>a few more details</p>
-          <p>a few more details</p>
-        </CardBody>
-        <CardFooter className="mx-4">
-          <Button
-            as={Link}
-            href="/catalog/product"
-            className="text-black flex justify-start items-center"
-          >
-            <p>View Details</p>
-            <TfiArrowTopRight className="mt-1 mx-1" />
-          </Button>
-        </CardFooter>
-      </Card>
-      <Card className="m-3">
-        <CardHeader className="justify-center">
-          <Image
-            src="https://picsum.photos/300/300"
-            alt="random image"
-            height={300}
-            width={300}
-          />
-        </CardHeader>
-        <CardBody className="mx-4">
-          <p className="text-xl font-semibold">name of product</p>
-          <p>a few more details</p>
-          <p>a few more details</p>
-          <p>a few more details</p>
-        </CardBody>
-        <CardFooter className="mx-4">
-          <Button
-            as={Link}
-            href="/catalog/product"
-            className="text-black flex justify-start items-center"
-          >
-            <p>View Details</p>
-            <TfiArrowTopRight className="mt-1 mx-1" />
-          </Button>
-        </CardFooter>
-      </Card>
-      <Card className="m-3">
-        <CardHeader className="justify-center">
-          <Image
-            src="https://picsum.photos/300/300"
-            alt="random image"
-            height={300}
-            width={300}
-          />
-        </CardHeader>
-        <CardBody className="mx-4">
-          <p className="text-xl font-semibold">name of product</p>
-          <p>a few more details</p>
-          <p>a few more details</p>
-          <p>a few more details</p>
-        </CardBody>
-        <CardFooter className="mx-4">
-          <Button
-            href="/catalog/product"
-            className="text-black flex justify-start items-center"
-          >
-            <p>View Details</p>
-            <TfiArrowTopRight className="mt-1 mx-1" />
-          </Button>
-        </CardFooter>
-      </Card>
+    <div className="mx-[10%] bg-gray-200">
+      <div className="flex items-center">
+        <Input
+          placeholder="Search for products..."
+          className="my-3 mx-1"
+          size="sm"
+          style={{}}
+          onChange={(event) => setSearchTerm(event.target.value)}
+        />
+        <Button className="mx-1 h-12" onClick={handleSearch}>
+          Search
+        </Button>
+      </div>
+      <div className="grid grid-cols-4">
+        {products.map((product) => (
+          <ProductCard product={product} key={product.id} />
+        ))}
+      </div>
     </div>
   );
 }

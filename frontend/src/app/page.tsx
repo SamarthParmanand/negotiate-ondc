@@ -29,11 +29,20 @@ export default function Home() {
           >
             Logout
           </Button>
-          <Link href="/chat">
-            <Button className="m-4 font-semibold p-5 text-black bg-neutral-300 rounded-lg">
-              Go to Chat
-            </Button>
-          </Link>
+          <Button
+            className="m-4 font-semibold p-5 text-black bg-neutral-300 rounded-lg"
+            as={Link}
+            href="/chat"
+          >
+            Go to Chat
+          </Button>
+          <Button
+            className="m-4 font-semibold p-5 text-black bg-neutral-300 rounded-lg"
+            as={Link}
+            href="/catalog"
+          >
+            Go to Catalog
+          </Button>
         </div>
       </div>
     </>
