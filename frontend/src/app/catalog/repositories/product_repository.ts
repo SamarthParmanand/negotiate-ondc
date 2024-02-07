@@ -6,6 +6,10 @@ abstract class BaseCatalogRepository {
     key: string,
     offset?: number | 30,
   ): Promise<ProductModel[]>;
+
+  abstract fetchProductById(
+   id:string
+  ): Promise<ProductModel>;
 }
 
 class NoProductsFound implements Error {
@@ -26,6 +30,13 @@ export default class CatalogRepository implements BaseCatalogRepository {
   constructor() {
     this.supabase = supabaseClient();
   }
+ async fetchProductById(id: string): Promise<ProductModel> {
+    const { data, error } = await this.supabase.from("products").select("*").eq("id",id).single();
+    if (data) {
+    return  new ProductModel(data);
+    }
+  throw new NoProductsFound((error as PostgrestError).message);
+  }
   /**
    * 
    * @param key Use keyword to search the product
@@ -36,10 +47,10 @@ export default class CatalogRepository implements BaseCatalogRepository {
     key?: string | undefined,
     offset?: number | 30,
   ): Promise<ProductModel[]> {
-   if(key != undefined){
-    const { data, error } = await this.supabase.rpc("search_products",{"pattern":key});
-    if (data) {
-      return data.map((e:any) => new ProductModel(e));
+    if(key != undefined){
+      const { data, error } = await this.supabase.rpc("search_products",{"pattern":key});
+      if (data) {
+      return data.map((e: any) => new ProductModel(e));
     }
     throw new NoProductsFound((error as PostgrestError).message);
    }else{
@@ -50,4 +61,8 @@ export default class CatalogRepository implements BaseCatalogRepository {
     throw new NoProductsFound(error.message);
    }
   }
+
+
+
+
 }
