@@ -24,7 +24,7 @@ export default function Inbox({
           return (
             <div key={session.id} className="px-2 my-2">
               <Button
-                className="bg-gray-300 w-full h-max my-1 py-2 text-left flex flex-col items-start"
+                className="bg-gray-200 w-full h-max my-1 py-2 text-left flex flex-col items-start data-[focus]:bg-gray-300 border border-gray-300"
                 onClick={() => handleSessionChange(session)}
               >
                 <p className="text-lg font-semibold">{session.buyerId}</p>

@@ -4,7 +4,7 @@ import React from "react";
 import ChatMessage from "../models/chat_message";
 import { useSnapshot } from "valtio";
 import authState from "@/app/store/auth";
-import { Avatar } from "@nextui-org/react";
+import { Avatar, Chip } from "@nextui-org/react";
 
 export default function MessageBubble({
   message,
@@ -15,7 +15,6 @@ export default function MessageBubble({
 }) {
   const userState = useSnapshot(authState);
   const isSender = message.author == userState.user?.id;
-  const isPrevAuthorSame = message.author == prev?.author;
   const dayDiff = message.createdAt.getDate() !== prev?.createdAt.getDate();
 
   function formatDate(date: Date): string {
@@ -47,14 +46,14 @@ export default function MessageBubble({
   return (
     <>
       {dayDiff && (
-        <span className="text-sm text-center bg-gray-300 my-2">
+        <Chip className="mx-auto font-light">
           {dateToString(message.createdAt, prev?.createdAt!)}
-        </span>
+        </Chip>
       )}
       <div
         className={`flex ${
           isSender ? "justify-end" : ""
-        } items-start space-x-4 mt-2`}
+        } items-start space-x-4 mt-1`}
       >
         {!isSender && (
           <div className="flex items-center">
