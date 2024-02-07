@@ -41,10 +41,10 @@ export default class MessageRepository implements ChatMesssageRepository {
           table: "chat_messages",
           filter: `sessionId=eq.${this.sessionId}`,
         },
-        (payload) => {
+        (payload: any) => {
           // console.log(payload);
           callback(new ChatMessage(payload.new as IChatMessage));
-        }
+        },
       )
       .subscribe(() => {
         // console.log(`Subscribed to ${sessionId}`);
@@ -58,7 +58,7 @@ export default class MessageRepository implements ChatMesssageRepository {
       .eq("sessionId", this.sessionId)
       .order("createdAt");
     if (data) {
-      return data.map((e) => new ChatMessage(e));
+      return data.map((e: any) => new ChatMessage(e));
     } else {
       throw error;
     }
