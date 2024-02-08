@@ -1,6 +1,6 @@
 "use client";
 
-import { Tabs, Tab, Button } from "@nextui-org/react";
+import { Tabs, Tab, Button, Skeleton } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useSnapshot } from "valtio";
 import authState from "@/app/store/auth";
@@ -8,6 +8,11 @@ import ChatSession from "@/app/chat/models/chat_session";
 import { SessionRepository } from "@/app/chat/repositories/chat_session_repository";
 import { ProductModel } from "../../models/product_model";
 import { v4 as uuidv4 } from "uuid";
+
+export function SkeletonMOP() {
+  return <Skeleton className="h-60 w-full rounded-xl my-4" />;
+}
+
 export default function ModeOfPurchase({
   product,
 }: {
@@ -29,12 +34,14 @@ export default function ModeOfPurchase({
     router.push("/chat");
   };
 
+  if (!product) return <SkeletonMOP />;
+
   return (
     <div className="my-4">
       <p className="">Mode of Purchase:</p>
       <Tabs
         classNames={{
-          tabList: "gap-3 w-full relative  bg-gray-200",
+          tabList: "gap-3 w-full relative bg-gray-200",
           cursor: "w-full bg-gray-300",
           tab: "max-w-fit px-0 h-12",
         }}
@@ -48,7 +55,7 @@ export default function ModeOfPurchase({
           <div>some more info regarding b2b</div>
           <div>some more info regarding b2b</div>
           <div>some more info regarding b2b</div>
-          <Button className="my-2" onClick={createSession}>
+          <Button className="my-2 bg-gray-300" onClick={createSession}>
             This will create a session with buyer and seller to negotiate
           </Button>
         </Tab>
@@ -60,7 +67,7 @@ export default function ModeOfPurchase({
           <div>some more info regarding b2c</div>
           <div>some more info regarding b2c</div>
           <div>some more info regarding b2c</div>
-          <Button className="my-2" onClick={createSession}>
+          <Button className="my-2 bg-gray-300" onClick={createSession}>
             my-2 This will create a session with buyer and seller to negotiate
           </Button>
         </Tab>
